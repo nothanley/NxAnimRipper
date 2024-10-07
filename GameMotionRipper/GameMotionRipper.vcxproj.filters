@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="MotionRipper">
+      <UniqueIdentifier>{382587d5-d1c4-409e-a560-6aa544dbd545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{6e4f65f8-dcd5-42e5-8762-d97d38530b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Animation">
+      <UniqueIdentifier>{3eb005f5-1e09-4765-b3ec-dbba3ea0ed56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Library">
+      <UniqueIdentifier>{26da130e-91be-4cec-9411-56a2159579b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Library\Hash">
+      <UniqueIdentifier>{52d769e3-9e40-4ca3-a10f-0d4f7b6773c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotionRipper\Process">
+      <UniqueIdentifier>{425b64d8-b6ee-4e80-825a-099b4232359e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotionRipper\NXAnim">
+      <UniqueIdentifier>{501d6250-decc-4d73-be32-70f406dc79e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nxanimrip.cpp">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nxripper.cpp">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nxripfile.cpp">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nxprocess.cpp">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\anim.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\anim_node.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\anim_track.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\anim_tree.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\animstructs.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\nxanim\bitstream.cpp">
+      <Filter>Include\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="include\common.cpp">
+      <Filter>Include\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="include\memoryreader.cpp">
+      <Filter>Include\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="include\hash\hash.cpp">
+      <Filter>Include\Library\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module.cpp">
+      <Filter>MotionRipper\Process</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\nxanimrip.h">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nxripper.h">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nxripfile.h">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nxprocess.h">
+      <Filter>MotionRipper\NXAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\anim.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\anim_node.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\anim_track.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\anim_tree.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\animstructs.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nxanim\bitstream.h">
+      <Filter>Include\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common.h">
+      <Filter>Include\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="include\memoryreader.h">
+      <Filter>Include\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hash\hash.h">
+      <Filter>Include\Library\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module.h">
+      <Filter>MotionRipper\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json.hpp">
+      <Filter>Include\Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
