@@ -1,0 +1,18 @@
+#include <nxripfile.h>
+#include <nxrippreset.h>
+#include <nxriplibrary.h>
+
+
+// Temporary hardcoded offset values ...
+
+// WWE 2K14
+#define WWE24 "WWE 2K14"
+#define ENTRANCE_RIG_OFFSET 0x3344C66C0 // Assumes using character slot XXX (John Cena)
+#define MATCH_RIG_OFFSET    0x3344CC020 // Assumes using character slot 100 (The Rock)
+#define CAE_RIG_OFFSET      0x3344C2430 // Assumes using character slot XXX (ADR)
+
+// SVR09
+#define SVR09 "WWE SmackDown vs. RAW 2009"
+#define SVR09_MATCH_RIG_OFFSET 0x334772470 // Assumes using character slot (HHH)
+#define SVR09_CAE_RIG_OFFSET   0x334772470 // Assumes using character slot (HHH)
+

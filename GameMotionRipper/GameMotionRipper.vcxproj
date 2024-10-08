@@ -34,6 +34,8 @@
     <ClCompile Include="src\nxanimrip.cpp" />
     <ClCompile Include="src\nxripfile.cpp" />
     <ClCompile Include="src\nxripper.cpp" />
+    <ClCompile Include="src\presets\nxriplibrary.cpp" />
+    <ClCompile Include="src\presets\nxrippreset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common.h" />
@@ -51,6 +53,11 @@
     <ClInclude Include="src\nxanimrip.h" />
     <ClInclude Include="src\nxripfile.h" />
     <ClInclude Include="src\nxripper.h" />
+    <ClInclude Include="src\presets\nxriplibrary.h" />
+    <ClInclude Include="src\presets\nxrippreset.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\nxgamerip" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -136,9 +143,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN;BUILD_DEBUG_PRESETS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GameMotionRipper/src;$(SolutionDir)GameMotionRipper/include;$(SolutionDir)GameMotionRipper/include/nxanim;$(SolutionDir)GameMotionRipper/include/hash;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameMotionRipper/src;$(SolutionDir)GameMotionRipper/include;$(SolutionDir)GameMotionRipper/include/nxanim;$(SolutionDir)GameMotionRipper/include/hash;$(SolutionDir)GameMotionRipper/src/presets;$(SolutionDir)GameMotionRipper/src/rippers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,7 +161,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GameMotionRipper/src;$(SolutionDir)GameMotionRipper/include;$(SolutionDir)GameMotionRipper/include/nxanim;$(SolutionDir)GameMotionRipper/include/hash;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameMotionRipper/src;$(SolutionDir)GameMotionRipper/include;$(SolutionDir)GameMotionRipper/include/nxanim;$(SolutionDir)GameMotionRipper/include/hash;$(SolutionDir)GameMotionRipper/src/presets;$(SolutionDir)GameMotionRipper/src/rippers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

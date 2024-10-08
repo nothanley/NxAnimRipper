@@ -2,23 +2,19 @@
 //
 
 #include <iostream>
-#include <nxripper.h>
-#include <nxripfile.h>
+#include <nxgamerip>
 
-#define ENTRANCE_RIG_OFFSET 0x3344C66C0 // Assumes using character slot XXX (John Cena)
-#define MATCH_RIG_OFFSET    0x3344CC020 // Assumes using character slot 100 (The Rock)
-#define CAE_RIG_OFFSET      0x3344C2430 // Assumes using character slot XXX (ADR)
 
-int main()
+void run_debug_ripper()
 {
-	int boneCount  = 90;
+	int boneCount = 140;
 	CNXRipper ripper;
 	ripper.setRipDuration(30000); // 10 seconds (10000 milliseconds)
 	ripper.setTickRate(90);       // frames per second
 
-	if (ripper.linkProcess("WWE 2K14"))
+	if (ripper.linkProcess(SVR09))
 	{
-		ripper.setManualTargets(MATCH_RIG_OFFSET, boneCount);
+		ripper.setManualTargets(SVR09_CAE_RIG_OFFSET, boneCount);
 		ripper.run();
 		printf("\n[MAIN] Ripper completed with %d frames\n", ripper.frames().size());
 	}
@@ -31,6 +27,23 @@ int main()
 	}
 
 	printf("\n[MAIN] Operation completed");
+}
+
+void run_preset_grabber()
+{
+	auto debugLib = CNXRipperLib::fromDevPresets();
+
+
+
+}
+
+int main()
+{
+	//run_debug_ripper();
+
+	run_preset_grabber();
+
+	return 0;
 }
 
 

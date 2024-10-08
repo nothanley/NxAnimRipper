@@ -26,15 +26,18 @@
     <Filter Include="MotionRipper\NXAnim">
       <UniqueIdentifier>{501d6250-decc-4d73-be32-70f406dc79e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MotionRipper\Preset">
+      <UniqueIdentifier>{7080338b-0f20-40ed-ae66-4a489e8c7494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotionRipper\Rippers">
+      <UniqueIdentifier>{cbc6f87a-b7d3-42f5-8860-4fdde0723350}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\nxanimrip.cpp">
-      <Filter>MotionRipper\NXAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nxripper.cpp">
       <Filter>MotionRipper\NXAnim</Filter>
     </ClCompile>
     <ClCompile Include="src\nxripfile.cpp">
@@ -73,12 +76,18 @@
     <ClCompile Include="src\module.cpp">
       <Filter>MotionRipper\Process</Filter>
     </ClCompile>
+    <ClCompile Include="src\presets\nxriplibrary.cpp">
+      <Filter>MotionRipper\Preset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\presets\nxrippreset.cpp">
+      <Filter>MotionRipper\Preset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nxripper.cpp">
+      <Filter>MotionRipper\Rippers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\nxanimrip.h">
-      <Filter>MotionRipper\NXAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nxripper.h">
       <Filter>MotionRipper\NXAnim</Filter>
     </ClInclude>
     <ClInclude Include="src\nxripfile.h">
@@ -120,5 +129,19 @@
     <ClInclude Include="include\json.hpp">
       <Filter>Include\Library</Filter>
     </ClInclude>
+    <ClInclude Include="src\presets\nxriplibrary.h">
+      <Filter>MotionRipper\Preset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\presets\nxrippreset.h">
+      <Filter>MotionRipper\Preset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nxripper.h">
+      <Filter>MotionRipper\Rippers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\nxgamerip">
+      <Filter>MotionRipper</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -24,10 +24,10 @@ public:
 	void setManualTargets(uintptr_t target_address, const int bone_count);
 	void setTickRate(int rate);
 
-private:
+protected:
 	void ripNxProcess();
 
-private:
+protected:
 	float     m_timer;
 	int       m_tickRate;
 	int       m_targetCount;
