@@ -1,15 +1,17 @@
 #include <vector>
 #include <string>
-#include <nxanimrip.h>
+#include <nxanimframe.h>
 #include <json.hpp>
 #pragma once
 
 using JSON = nlohmann::ordered_json;
 
+class CNXRipper;
+
 class CNXRipFile
 {
 public:
-	CNXRipFile();
+	CNXRipFile(CNXRipper* ripper);
 	~CNXRipFile();
 
 public:
@@ -21,5 +23,6 @@ private:
 
 private:
 	std::string m_filePath;
+	CNXRipper* m_ripper;
 	std::vector<CNXAnimFrame>* m_frames;
 };

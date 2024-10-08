@@ -36,6 +36,12 @@ CNXRipper::config()
 	return m_config;
 }
 
+std::shared_ptr<CNXProcess>&
+CNXRipper::process()
+{
+	return m_process;
+}
+
 bool
 CNXRipper::linkProcess(const char* process_name)
 {
@@ -55,51 +61,66 @@ CNXRipper::addNxFrame(const CNXAnimFrame& frame)
 }
 
 void 
-CNXRipper::processTargetFrame(const NXRipTarget& target, int num_bones)
+CNXRipper::processTrackKeyFrame(NXRipTrack& track, int num_bones, int frame_index)
 {
 	// Defines frame by frame logic for worker threads
 	std::vector<uint8_t> buffer; 
 	size_t size = num_bones * NXMATRIX_LEN;
 
-	if (!m_process->loadMemChunk(target.address, size, buffer))
+	if (!m_process->loadMemChunk(track.address, size, buffer))
 		return;
 
 	// Process recieved data
 	CNXAnimFrame frame;
 	frame.load((char*)buffer.data(), buffer.size());
-	frame.setTarget(target.index);
+	frame.setKeyIndex(frame_index);
+	frame.setTrack(track.index);
 
 	if (!frame.empty())
 		CNXRipper::addNxFrame(frame);
 }
 
 void
-CNXRipper::thread(const NXRipTarget& target, int num_bones, const milliseconds& frame_time)
+CNXRipper::thread(NXRipTrack& track, const milliseconds frame_time)
 {
+	if (track.numEntities == 0) {
+		return; // no entities specified for ripping ...
+	}
+
 	// Runs concurrent frame processing for specified animation target
 	// while the timed or untimed main thread is requesting data
+	int currentFrame = 0;
+	int numBones     = track.numEntities;
+
 	while (m_isRunning)
 	{
-		processTargetFrame(target, num_bones);
+		processTrackKeyFrame(track, numBones, currentFrame);
 		std::this_thread::sleep_for(frame_time);
+
+		++currentFrame;
 	}
+
+	track.numKeys = currentFrame;
 }
 
 void
 CNXRipper::startRipThreads()
 {
-	if (!m_process || m_config->targets().empty() || m_config->channelCount() == 0)
+	if (!m_process || m_config->tracks().empty())
 		return;
 
 	// Initializes and detaches target threads
 	// for each specified animation controller
 	this->m_isRunning = true;
-	auto numBones     = m_config->channelCount();
 	auto frameTiming  = milliseconds(100 / m_config->tickRate());
 
-	for (auto& target : m_config->targets())
+	auto& tracks = m_config->tracks();
+	for (int i = 0; i < tracks.size(); ++i)
 	{
-		std::thread worker(&CNXRipper::thread, this, target, numBones, frameTiming);
+		NXRipTrack& track = tracks[i];
+		track.index = i;
+
+		std::thread worker(&CNXRipper::thread, this, std::ref(track), frameTiming);
 		worker.detach();
 	}
 }

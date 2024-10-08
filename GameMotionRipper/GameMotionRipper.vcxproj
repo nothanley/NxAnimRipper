@@ -31,7 +31,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\module.cpp" />
     <ClCompile Include="src\nxprocess.cpp" />
-    <ClCompile Include="src\nxanimrip.cpp" />
+    <ClCompile Include="src\nxanimframe.cpp" />
     <ClCompile Include="src\nxripfile.cpp" />
     <ClCompile Include="src\nxripper.cpp" />
     <ClCompile Include="src\presets\nxriplibrary.cpp" />
@@ -50,7 +50,7 @@
     <ClInclude Include="include\nxanim\bitstream.h" />
     <ClInclude Include="src\module.h" />
     <ClInclude Include="src\nxprocess.h" />
-    <ClInclude Include="src\nxanimrip.h" />
+    <ClInclude Include="src\nxanimframe.h" />
     <ClInclude Include="src\nxripfile.h" />
     <ClInclude Include="src\nxripper.h" />
     <ClInclude Include="src\presets\nxriplibrary.h" />

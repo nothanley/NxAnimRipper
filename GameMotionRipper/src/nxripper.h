@@ -1,13 +1,13 @@
 #include <memory>
 #include <chrono>
-#include <nxanimrip.h>
+#include <nxanimframe.h>
 #include <mutex>
 #pragma once
 
 //Forward declarations
 class CNXProcess;
 class CNXRipperPreset;
-struct NXRipTarget;
+struct NXRipTrack;
 
 // Class declarations
 class CNXRipper
@@ -29,13 +29,13 @@ public:
 private:
 	void startRipThreads();
 	void addNxFrame(const CNXAnimFrame& frame);
-	void processTargetFrame(const NXRipTarget& target, int num_bones);
-	void thread(const NXRipTarget& target, int num_bones, const std::chrono::milliseconds& frame_time);
+	void processTrackKeyFrame(NXRipTrack& target, int num_bones, int frame_index);
+	void thread(NXRipTrack& track, const std::chrono::milliseconds frame_time);
 
 private:
-	std::mutex m_mutex;
 	bool  m_isRunning;
 	float m_timer;
+	std::mutex m_mutex;
 	std::shared_ptr<CNXRipperPreset> m_config;
 	std::shared_ptr<CNXProcess>      m_process;
 	std::vector<CNXAnimFrame>        m_frames;

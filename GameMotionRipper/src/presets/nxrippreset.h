@@ -4,12 +4,14 @@
 
 using JSON = nlohmann::ordered_json;
 
-// NXRipTarget - defines ripper controller target ie. Actor0, Actor1, Camera0 etc.
-struct NXRipTarget
+// NXRipTrack - defines ripper controller target ie. Actor0, Actor1, Camera0 etc.
+struct NXRipTrack
 {
 	std::string name;
-	uintptr_t   address;
-	int         index = -1; // used to link animframe keys with threads
+	int16_t     index = -1; // used to link animframe keys with threads
+	uint16_t    numEntities = 0;
+	uintptr_t   address = 0;
+	uint32_t    numKeys = 0;
 };
 
 // NXRipperPreset - defines a ripper preset and its properties for a specific game
@@ -24,22 +26,21 @@ public:
 	void setProcess(const char* process_name);
 	void setTickRate(int rate);
 	void setRipDuration(int duration);
-	void setChannelCount(int count);
-	void setOffset(uintptr_t offset);
+	void addTrack(const uintptr_t address, const uint16_t entityCount, const std::string name = "");
+	void addTrack(NXRipTrack& track);
 	
 public:
 	static std::shared_ptr<CNXRipperPreset> makeDefault();
 	std::string name() const;
 	std::string process() const;
+	int trackCount() const;
 	int tickRate() const;
-	int channelCount() const;
-	uintptr_t offset() const;
 
 public:
 	bool save(const char* path) const;
 	bool empty() const;
 	void fromFile(const char* path);
-	const std::vector<NXRipTarget>& targets() const;
+	std::vector<NXRipTrack>& tracks();
 
 private:
 	inline JSON toJson() const;
@@ -47,11 +48,9 @@ private:
 private:
 	std::string m_name;
 	std::string m_processName;
-	uintptr_t m_targetOffset;
 	int m_tickRate;
 	int m_ripDuration;
-	int m_numChannels;
-	std::vector<NXRipTarget> m_targets;
+	std::vector<NXRipTrack> m_tracks;
 };
 
 

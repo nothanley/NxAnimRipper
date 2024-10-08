@@ -98,7 +98,9 @@ CNXRipperLib::getLocalPath()
 		preset.setProcess("dummy.exe");
 		preset.setTickRate(60);
 		preset.setRipDuration(1000);
-		preset.setChannelCount(1);
+
+		preset.addTrack(0, 2, "test_track");
+
 		lib.addPreset(preset);
 	}
 

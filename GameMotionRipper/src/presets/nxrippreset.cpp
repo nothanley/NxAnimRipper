@@ -4,9 +4,7 @@
 CNXRipperPreset::CNXRipperPreset()
 	:
 	m_tickRate(0),
-	m_ripDuration(0),
-	m_numChannels(0),
-	m_targetOffset(0)
+	m_ripDuration(0)
 {
 }
 
@@ -17,23 +15,28 @@ CNXRipperPreset::~CNXRipperPreset()
 JSON
 CNXRipperPreset::toJson() const
 {
-	JSON j, targets;
+	JSON j, tracks;
 	j["name"]          = m_name;
 	j["process"]       = m_processName;
-	j["target_offset"] = m_targetOffset;
 	j["tick_rate"]     = m_tickRate;
 	j["rip_duration"]  = m_ripDuration;
-	j["channel_count"] = m_numChannels;
 
-	for (auto& target : m_targets)
+	std::vector<JSON> trackObjs(m_tracks.size());
+	for (int i = 0; i < trackObjs.size(); ++i)
 	{
 		JSON t;
-		t["name"]    = target.name;
-		t["address"] = target.address;
-		t["index"]   = target.index;
-		targets.push_back(t);
+		auto& track = m_tracks[i];
+
+		t["name"]         = track.name;
+		t["address"]      = track.address;
+		t["entity_count"] = track.numEntities;
+		t["keyframes"]    = track.numKeys;
+		t["index"]        = track.index;
+
+		trackObjs[i] = t;
 	}
-	j["targets"] = targets;
+
+	j["tracks"]= trackObjs;
 	return j;
 }
 
@@ -74,22 +77,20 @@ CNXRipperPreset::fromFile(const char* path)
 		// Populate data from JSON object
 		m_name         = json["name"];
 		m_processName  = json["process"];
-		m_targetOffset = json["target_offset"];
 		m_tickRate     = json["tick_rate"];
 		m_ripDuration  = json["rip_duration"];
-		m_numChannels  = json["channel_count"];
 
-		JSON targets = json["targets"];
-		if (targets.empty())
+		JSON tracks    = json["tracks"];
+		if (tracks.empty())
 			return;
 
-		for (auto& target : targets)
+		for (auto& track : tracks)
 		{
-			NXRipTarget t;
-			t.name	  = target["name"];
-			t.address = target["address"];
-			t.index   = -1;
-			m_targets.push_back(t);
+			NXRipTrack t;
+			t.name	      = track["name"];
+			t.address     = track["address"];
+			t.numEntities = track["entity_count"];
+			m_tracks.push_back(t);
 		}
 	}
 	catch (...)
@@ -106,14 +107,13 @@ CNXRipperPreset::makeDefault()
 	preset->setProcess("DefaultProcess");
 	preset->setTickRate(60);
 	preset->setRipDuration(5000);
-	preset->setChannelCount(1);
 	return preset;
 }
 
 bool
 CNXRipperPreset::empty() const
 {
-	return m_name.empty() || m_processName.empty() || m_numChannels == 0;
+	return m_name.empty() || m_processName.empty() || m_tracks.empty();
 }
 
 void 
@@ -140,22 +140,40 @@ CNXRipperPreset::setRipDuration(int duration)
 	m_ripDuration = duration;
 }
 
-void 
-CNXRipperPreset::setChannelCount(int count)
+void
+CNXRipperPreset::addTrack(
+	const uintptr_t address, 
+	const uint16_t entityCount,
+	const std::string name)
 {
-	m_numChannels = count;
+
+	NXRipTrack track;
+	track.address = address;
+	track.numEntities = entityCount;
+	track.name = name;
+
+	m_tracks.push_back(track);
 }
 
 void
-CNXRipperPreset::setOffset(uintptr_t offset)
+CNXRipperPreset::addTrack(NXRipTrack& track)
 {
-	m_targetOffset = offset;
+	if (track.address = 0 || track.numEntities == 0)
+		return;
+
+	m_tracks.push_back(track);
 }
 
-const std::vector<NXRipTarget>& 
-CNXRipperPreset::targets() const
+int
+CNXRipperPreset::trackCount() const
 {
-	return m_targets;
+	return m_tracks.size();
+}
+
+std::vector<NXRipTrack>& 
+CNXRipperPreset::tracks()
+{
+	return m_tracks;
 }
 
 std::string
@@ -170,20 +188,8 @@ CNXRipperPreset::process() const
 	return m_processName;
 }
 
-uintptr_t
-CNXRipperPreset::offset() const
-{
-	return m_targetOffset;
-}
-
 int
 CNXRipperPreset::tickRate() const
 {
 	return m_tickRate;
-}
-
-int
-CNXRipperPreset::channelCount() const
-{
-	return m_numChannels;
 }

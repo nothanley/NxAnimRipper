@@ -1,10 +1,14 @@
 #include <nxripfile.h>
+#include <nxripper.h>
+#include <nxrippreset.h>
 #include <fstream>
 #include <common.h>
 #include <chrono>
+#
 
-CNXRipFile::CNXRipFile()
+CNXRipFile::CNXRipFile(CNXRipper* ripper)
     :
+    m_ripper(ripper),
     m_frames(nullptr)
 {
 }
@@ -37,7 +41,7 @@ inline static std::string getSaveFileName(const char* directory)
 
 void CNXRipFile::saveToFile(const char* directory_path)
 {
-    if (!m_frames)
+    if (!m_frames || !m_ripper)
         return;
 
     std::string savePath = ::getSaveFileName(directory_path);
@@ -56,29 +60,45 @@ void CNXRipFile::saveToFile(const char* directory_path)
     printf("[CNXRipFile] File saved: %s\n", savePath.c_str());
 }
 
+inline static JSON getTrackEntityTfmJson(CNXAnimFrame& frame)
+{
+    JSON obj;
+
+    for (auto& entity : frame.entities())
+    {
+        JSON child;
+        child["matrix"] = entity.matrix.to_vector();
+        obj[std::to_string(entity.id)] = child;
+    }
+
+    return obj;
+}
+
 void CNXRipFile::buildAnimJson(JSON& json)
 {
-    int i = 0;
-    json["NumFrames"] = m_frames->size();
+    auto& config = m_ripper->config();
+    json["overall frames"] = m_frames->size();
+    json["overall tracks"] = config->trackCount();
 
+    for (auto& track : config->tracks())
+    {
+        JSON t;
+        t["num keys"] = track.numKeys;
+        t["num entities"] = track.numEntities;
+        json[track.name] = t;
+    }
+
+    int i = 0;
     for (auto& frame : *m_frames)
     {
         JSON f;
-        f["Target"]      = frame.target();
-        f["NumChannels"] = frame.channels().size();
-
-        for (auto& channel : frame.channels())
-        {
-            JSON child;
-            //auto translate = channel.matrix.translation();
-
-            child["id"]                   =   channel.id;
-            child["matrix"]               =   channel.matrix.to_vector();
-            //child["translation"]        = { translate.x, translate.y, translate.z };
-            f[std::to_string(channel.id)] =   child;
-        }
+        f["key"]      = frame.key();
+        f["track"]    = frame.track();
+        f["entities"] = ::getTrackEntityTfmJson(frame);
 
         json["Frame" + std::to_string(i)] = f;
         ++i;
     }
 }
+
+

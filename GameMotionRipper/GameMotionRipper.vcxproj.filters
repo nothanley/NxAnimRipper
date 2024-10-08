@@ -37,7 +37,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\nxanimrip.cpp">
+    <ClCompile Include="src\nxanimframe.cpp">
       <Filter>MotionRipper\NXAnim</Filter>
     </ClCompile>
     <ClCompile Include="src\nxripfile.cpp">
@@ -87,7 +87,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\nxanimrip.h">
+    <ClInclude Include="src\nxanimframe.h">
       <Filter>MotionRipper\NXAnim</Filter>
     </ClInclude>
     <ClInclude Include="src\nxripfile.h">

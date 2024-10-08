@@ -15,8 +15,8 @@ void run_debug_ripper()
 	{
 		config->setRipDuration(30000);           // 10 seconds (10000 milliseconds)
 		config->setTickRate(90);                 // frames per second
-		config->setOffset(SVR09_CAE_RIG_OFFSET); // rig offset
-		config->setChannelCount(boneCount);      // number of bones
+		//config->setOffset(SVR09_CAE_RIG_OFFSET); // rig offset
+		//config->setEntityCount(boneCount);       // number of bones
 
 		ripper.run();
 		printf("\n[MAIN] Ripper completed with %d frames\n", ripper.frames().size());

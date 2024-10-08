@@ -1,4 +1,4 @@
-#include <nxanimrip.h>
+#include <nxanimframe.h>
 #include <memoryreader.h>
 
 using namespace memreader;
@@ -11,24 +11,34 @@ CNXAnimFrame::~CNXAnimFrame()
 {
 }
 
-std::vector<NXChannel>& CNXAnimFrame::channels()
+std::vector<NXAnimEntity>& CNXAnimFrame::entities()
 {
-	return m_channels;
+	return m_entities;
 }
 
 bool CNXAnimFrame::empty() const
 {
-	return m_channels.empty();
+	return m_entities.empty();
 }
 
-void CNXAnimFrame::setTarget(const uint16_t index)
+void CNXAnimFrame::setTrack(const uint16_t index)
 {
-	this->m_targetIndex = index;
+	this->m_trackIndex = index;
 }
 
-uint16_t CNXAnimFrame::target() const
+void CNXAnimFrame::setKeyIndex(const uint32_t index)
 {
-	return m_targetIndex;
+	this->m_frameIndex = index;
+}
+
+uint16_t CNXAnimFrame::track() const
+{
+	return m_trackIndex;
+}
+
+uint32_t CNXAnimFrame::key() const
+{
+	return m_frameIndex;
 }
 
 void CNXAnimFrame::load(char* data, const size_t size)
@@ -38,20 +48,20 @@ void CNXAnimFrame::load(char* data, const size_t size)
 
 	char* stream    = data;
 	int numElements = size / NXMATRIX_LEN;
-	this->m_channels.resize(numElements);
+	this->m_entities.resize(numElements);
 
 	for (int i = 0; i < numElements; i++)
 	{
-		this->parseController(stream, m_channels[i]);
-		m_channels[i].id = i;
+		this->parseController(stream, m_entities[i]);
+		m_entities[i].id = i;
 		stream += NXMATRIX_LEN;
 	}
 }
 
-void CNXAnimFrame::parseController(char* data, NXChannel& channel)
+void CNXAnimFrame::parseController(char* data, NXAnimEntity& entity)
 {
 	if (!data) return;
-	auto& matrix = channel.matrix;
+	auto& matrix = entity.matrix;
 
 	// Load matrices from data stream
 	matrix.row3 = NX::Vec4{ ReadFloat(data, true), ReadFloat(data, true), ReadFloat(data, true), ReadFloat(data, true) };
