@@ -7,7 +7,8 @@
 using namespace std::chrono;
 
 CNXRipper::CNXRipper()
-	: m_timer(10000),
+	:
+	m_timer(10000), // Default 10 second timer
 	m_isRunning(false)
 {
 	this->m_config = CNXRipperPreset::makeDefault();
