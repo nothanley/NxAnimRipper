@@ -96,15 +96,14 @@ CNXRipperLib::getLocalPath()
 		CNXRipperPreset preset;
 		preset.setName(name);
 		preset.setProcess("dummy.exe");
-		preset.setDefaultTickRate(60);
-		preset.setDefaultRipDuration(1000);
-		preset.setDefaultChannelCount(1);
+		preset.setTickRate(60);
+		preset.setRipDuration(1000);
+		preset.setChannelCount(1);
 		lib.addPreset(preset);
 	}
 
 	CNXRipperLib CNXRipperLib::fromDevPresets()
 	{
-		// Initialize library
 		printf("\n[CNXRipperLib] Building default presets.\n");
 
 		CNXRipperLib lib;
@@ -114,6 +113,8 @@ CNXRipperLib::getLocalPath()
 		{
 			::addDummyPreset(lib, "GameDummyA");
 			::addDummyPreset(lib, "OtherGameDummyB");
+
+			lib.addPreset( *CNXRipperPreset::makeDefault().get() );
 		}
 
 		lib.save();

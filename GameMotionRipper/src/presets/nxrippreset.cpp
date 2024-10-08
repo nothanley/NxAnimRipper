@@ -5,7 +5,8 @@ CNXRipperPreset::CNXRipperPreset()
 	:
 	m_tickRate(0),
 	m_ripDuration(0),
-	m_numChannels(0)
+	m_numChannels(0),
+	m_targetOffset(0)
 {
 }
 
@@ -17,10 +18,11 @@ JSON
 CNXRipperPreset::toJson() const
 {
 	JSON j, targets;
-	j["name"] = m_name;
-	j["process"] = m_processName;
-	j["tick_rate"] = m_tickRate;
-	j["rip_duration"] = m_ripDuration;
+	j["name"]          = m_name;
+	j["process"]       = m_processName;
+	j["target_offset"] = m_targetOffset;
+	j["tick_rate"]     = m_tickRate;
+	j["rip_duration"]  = m_ripDuration;
 	j["channel_count"] = m_numChannels;
 
 	for (auto& target : m_targets)
@@ -69,11 +71,12 @@ CNXRipperPreset::fromFile(const char* path)
 		JSON json = ::getJsonFromFile(path);
 
 		// Populate data from JSON object
-		m_name        = json["name"];
-		m_processName = json["process"];
-		m_tickRate    = json["tick_rate"];
-		m_ripDuration = json["rip_duration"];
-		m_numChannels = json["channel_count"];
+		m_name         = json["name"];
+		m_processName  = json["process"];
+		m_targetOffset = json["target_offset"];
+		m_tickRate     = json["tick_rate"];
+		m_ripDuration  = json["rip_duration"];
+		m_numChannels  = json["channel_count"];
 
 		JSON targets = json["targets"];
 		if (targets.empty())
@@ -93,6 +96,17 @@ CNXRipperPreset::fromFile(const char* path)
 	}
 }
 
+std::shared_ptr<CNXRipperPreset>
+CNXRipperPreset::makeDefault()
+{
+	auto preset = std::make_shared<CNXRipperPreset>();
+	preset->setName("Default");
+	preset->setProcess("DefaultProcess");
+	preset->setTickRate(60);
+	preset->setRipDuration(5000);
+	preset->setChannelCount(1);
+	return preset;
+}
 
 bool
 CNXRipperPreset::empty() const
@@ -113,34 +127,33 @@ CNXRipperPreset::setProcess(const char* process_name)
 }
 
 void 
-CNXRipperPreset::setDefaultTickRate(int rate)
+CNXRipperPreset::setTickRate(int rate)
 {
 	m_tickRate = rate;
 }
 
 void 
-CNXRipperPreset::setDefaultRipDuration(int duration)
+CNXRipperPreset::setRipDuration(int duration)
 {
 	m_ripDuration = duration;
 }
 
 void 
-CNXRipperPreset::setDefaultChannelCount(int count)
+CNXRipperPreset::setChannelCount(int count)
 {
 	m_numChannels = count;
+}
+
+void
+CNXRipperPreset::setOffset(uintptr_t offset)
+{
+	m_targetOffset = offset;
 }
 
 const std::vector<NXRipTarget>& 
 CNXRipperPreset::getTargets() const
 {
 	return m_targets;
-}
-
-std::shared_ptr<CNXRipper>
-CNXRipperPreset::ripper() const
-{
-	auto ripper = std::make_shared<CNXRipper>();
-	return ripper;
 }
 
 std::string
@@ -153,4 +166,22 @@ std::string
 CNXRipperPreset::process() const
 {
 	return m_processName;
+}
+
+uintptr_t
+CNXRipperPreset::offset() const
+{
+	return m_targetOffset;
+}
+
+int
+CNXRipperPreset::tickRate() const
+{
+	return m_tickRate;
+}
+
+int
+CNXRipperPreset::channelCount() const
+{
+	return m_numChannels;
 }

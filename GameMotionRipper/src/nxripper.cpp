@@ -1,53 +1,45 @@
 #include <nxripper.h>
 #include <nxprocess.h>
+#include <nxrippreset.h>
 #include <thread>
 
 #define time_cast std::chrono::duration_cast<std::chrono::milliseconds>
 using namespace std::chrono;
 
 CNXRipper::CNXRipper()
-	: m_tickRate(60)
-	, m_targetCount(0)
-	, m_targetOffset(0)
-	, m_timer(10000)
+	: m_timer(10000)
 {
+	this->m_config = CNXRipperPreset::makeDefault();
 }
 
 CNXRipper::~CNXRipper()
 {
 }
 
-bool CNXRipper::empty() const
+bool 
+CNXRipper::empty() const
 {
 	return m_frames.empty();
 }
 
-std::vector<CNXAnimFrame>& CNXRipper::frames()
+std::vector<CNXAnimFrame>& 
+CNXRipper::frames()
 {
 	return m_frames;
 }
 
-void CNXRipper::setTickRate(int rate)
+std::shared_ptr<CNXRipperPreset>&
+CNXRipper::config()
 {
-	m_tickRate = rate;
+	return m_config;
 }
 
-void CNXRipper::setManualTargets(uintptr_t target_address, const int bone_count)
-{
-	m_targetCount  = bone_count;
-	m_targetOffset = target_address;
-}
-
-void CNXRipper::setRipDuration(int duration)
-{
-	m_timer = duration;
-}
-
-void CNXRipper::run()
+void 
+CNXRipper::run()
 {
 	if (!m_process) return;
 
-	auto frameTime   = milliseconds(100 / m_tickRate);
+	auto frameTime   = milliseconds( 100 / m_config->tickRate() );
 	auto startTime   = high_resolution_clock::now();
 	auto currentTime = startTime;
 	printf("[NXRipper] Ripper initialized | Timer: %f(ms)\n", m_timer);
@@ -61,7 +53,8 @@ void CNXRipper::run()
 	}
 }
 
-bool CNXRipper::linkProcess(const char* process_name)
+bool 
+CNXRipper::linkProcess(const char* process_name)
 {
 	m_process = std::make_unique<CNXProcess>(process_name);
 	m_process->load();
@@ -69,16 +62,17 @@ bool CNXRipper::linkProcess(const char* process_name)
 	return true;
 }
 
-void CNXRipper::ripNxProcess()
+void 
+CNXRipper::ripNxProcess()
 {
 	// Validate linked process
-	if (!m_process || m_targetCount <= 0)
+	if (!m_process || m_config->channelCount() <= 0)
 		return;
 
 	// Load target memory chunk
-	size_t size = m_targetCount * NXMATRIX_LEN; // context: 0x40 is the size of a single bone matrix
 	std::vector<uint8_t> buffer;
-	if (!m_process->loadMemChunk(m_targetOffset, size, buffer))
+	size_t size = m_config->channelCount() * NXMATRIX_LEN; // context: 0x40 is the size of a single bone matrix
+	if (!m_process->loadMemChunk(m_config->offset(), size, buffer))
 		return;
 
 	// Process recieved data
@@ -90,5 +84,3 @@ void CNXRipper::ripNxProcess()
 		m_frames.push_back(frame);
 	}
 }
-
-

@@ -21,20 +21,24 @@ public:
 public:
 	void setName(const char* name);
 	void setProcess(const char* process_name);
-	void setDefaultTickRate(int rate);
-	void setDefaultRipDuration(int duration);
-	void setDefaultChannelCount(int count);
+	void setTickRate(int rate);
+	void setRipDuration(int duration);
+	void setChannelCount(int count);
+	void setOffset(uintptr_t offset);
 	
 public:
+	static std::shared_ptr<CNXRipperPreset> makeDefault();
 	std::string name() const;
 	std::string process() const;
+	int tickRate() const;
+	int channelCount() const;
+	uintptr_t offset() const;
 
 public:
 	bool save(const char* path) const;
 	bool empty() const;
 	void fromFile(const char* path);
 	const std::vector<NXRipTarget>& getTargets() const;
-	std::shared_ptr<CNXRipper> ripper() const;
 
 private:
 	inline JSON toJson() const;
@@ -42,6 +46,7 @@ private:
 private:
 	std::string m_name;
 	std::string m_processName;
+	uintptr_t m_targetOffset;
 	int m_tickRate;
 	int m_ripDuration;
 	int m_numChannels;

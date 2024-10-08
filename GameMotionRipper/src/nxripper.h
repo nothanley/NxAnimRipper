@@ -5,6 +5,7 @@
 
 //Forward declarations
 class CNXProcess;
+class CNXRipperPreset;
 
 // Class declarations
 class CNXRipper
@@ -14,27 +15,22 @@ public:
 	~CNXRipper();
 
 public:
-	bool empty() const;
-	std::vector<CNXAnimFrame>& frames();
 	void run();
+	bool empty() const;
 	bool linkProcess(const char* process_name);
 
 public:
-	void setRipDuration(int duration);
-	void setManualTargets(uintptr_t target_address, const int bone_count);
-	void setTickRate(int rate);
+	std::vector<CNXAnimFrame>& frames();
+	std::shared_ptr<CNXRipperPreset>& config();
 
-protected:
+private:
+	void initRipThread();
 	void ripNxProcess();
 
-protected:
-	float     m_timer;
-	int       m_tickRate;
-	int       m_targetCount;
-	uintptr_t m_targetOffset;
-	std::unique_ptr<CNXProcess> m_process;
-	std::vector<CNXAnimFrame>   m_frames;
+private:
+	float m_timer;
+	std::shared_ptr<CNXRipperPreset> m_config;
+	std::unique_ptr<CNXProcess>      m_process;
+	std::vector<CNXAnimFrame>        m_frames;
 };
-
-
 

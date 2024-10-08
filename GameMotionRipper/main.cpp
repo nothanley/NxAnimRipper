@@ -9,12 +9,15 @@ void run_debug_ripper()
 {
 	int boneCount = 140;
 	CNXRipper ripper;
-	ripper.setRipDuration(30000); // 10 seconds (10000 milliseconds)
-	ripper.setTickRate(90);       // frames per second
+	auto& config = ripper.config();
 
 	if (ripper.linkProcess(SVR09))
 	{
-		ripper.setManualTargets(SVR09_CAE_RIG_OFFSET, boneCount);
+		config->setRipDuration(30000);           // 10 seconds (10000 milliseconds)
+		config->setTickRate(90);                 // frames per second
+		config->setOffset(SVR09_CAE_RIG_OFFSET); // rig offset
+		config->setChannelCount(boneCount);      // number of bones
+
 		ripper.run();
 		printf("\n[MAIN] Ripper completed with %d frames\n", ripper.frames().size());
 	}
