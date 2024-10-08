@@ -9,6 +9,7 @@ struct NXRipTarget
 {
 	std::string name;
 	uintptr_t   address;
+	int         index = -1; // used to link animframe keys with threads
 };
 
 // NXRipperPreset - defines a ripper preset and its properties for a specific game
@@ -38,7 +39,7 @@ public:
 	bool save(const char* path) const;
 	bool empty() const;
 	void fromFile(const char* path);
-	const std::vector<NXRipTarget>& getTargets() const;
+	const std::vector<NXRipTarget>& targets() const;
 
 private:
 	inline JSON toJson() const;

@@ -30,7 +30,6 @@ bool CNXProcess::load()
 
 	this->findProcess();
 
-
 	return m_module != nullptr;
 }
 

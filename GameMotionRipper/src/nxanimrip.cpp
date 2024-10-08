@@ -21,6 +21,16 @@ bool CNXAnimFrame::empty() const
 	return m_channels.empty();
 }
 
+void CNXAnimFrame::setTarget(const uint16_t index)
+{
+	this->m_targetIndex = index;
+}
+
+uint16_t CNXAnimFrame::target() const
+{
+	return m_targetIndex;
+}
+
 void CNXAnimFrame::load(char* data, const size_t size)
 {
 	if (!data || size <= 0)

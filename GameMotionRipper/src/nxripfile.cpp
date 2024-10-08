@@ -64,16 +64,17 @@ void CNXRipFile::buildAnimJson(JSON& json)
     for (auto& frame : *m_frames)
     {
         JSON f;
+        f["Target"]      = frame.target();
         f["NumChannels"] = frame.channels().size();
 
         for (auto& channel : frame.channels())
         {
             JSON child;
-            auto translate = channel.matrix.translation();
+            //auto translate = channel.matrix.translation();
 
             child["id"]                   =   channel.id;
             child["matrix"]               =   channel.matrix.to_vector();
-            //child["translation"]          = { translate.x, translate.y, translate.z };
+            //child["translation"]        = { translate.x, translate.y, translate.z };
             f[std::to_string(channel.id)] =   child;
         }
 

@@ -28,8 +28,9 @@ CNXRipperPreset::toJson() const
 	for (auto& target : m_targets)
 	{
 		JSON t;
-		t["name"] = target.name;
+		t["name"]    = target.name;
 		t["address"] = target.address;
+		t["index"]   = target.index;
 		targets.push_back(t);
 	}
 	j["targets"] = targets;
@@ -85,8 +86,9 @@ CNXRipperPreset::fromFile(const char* path)
 		for (auto& target : targets)
 		{
 			NXRipTarget t;
-			t.name = target["name"];
+			t.name	  = target["name"];
 			t.address = target["address"];
+			t.index   = -1;
 			m_targets.push_back(t);
 		}
 	}
@@ -151,7 +153,7 @@ CNXRipperPreset::setOffset(uintptr_t offset)
 }
 
 const std::vector<NXRipTarget>& 
-CNXRipperPreset::getTargets() const
+CNXRipperPreset::targets() const
 {
 	return m_targets;
 }
