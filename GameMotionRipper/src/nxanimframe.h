@@ -19,7 +19,7 @@ public:
 
 public:
 	bool empty() const;
-	uint32_t frame() const;
+	uint32_t key() const;
 	uint16_t track() const;
 	void load(char* data, const size_t size);
 	void setKeyIndex(const uint32_t index);

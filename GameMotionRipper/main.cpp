@@ -15,8 +15,7 @@ void run_debug_ripper()
 	{
 		config->setRipDuration(30000);           // 10 seconds (10000 milliseconds)
 		config->setTickRate(90);                 // frames per second
-		//config->setOffset(SVR09_CAE_RIG_OFFSET); // rig offset
-		//config->setEntityCount(boneCount);       // number of bones
+		config->addTrack(SVR09_CAE_RIG_OFFSET, boneCount);
 
 		ripper.run();
 		printf("\n[MAIN] Ripper completed with %d frames\n", ripper.frames().size());
@@ -24,7 +23,7 @@ void run_debug_ripper()
 
 	if (!ripper.empty())
 	{
-		CNXRipFile ripFile;
+		CNXRipFile ripFile(&ripper);
 		ripFile.setFrames(&ripper.frames());
 		ripFile.saveToFile("C:/Users/wauke/Desktop/ANIM_FILE_DEV");
 	}
